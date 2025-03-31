@@ -1,0 +1,31 @@
+import express from "express";
+import cors from "cors";
+import adminProductRouter from "./routes/admin/product.routes.js";
+import adminOrderRouter from "./routes/admin/order.routes.js";
+import authRouter from "./routes/auth/auth.routes.js";
+import cartRouter from "./routes/shop/cart.routes.js";
+import addressRouter from "./routes/shop/address.routes.js";
+import orderRouter from "./routes/shop/order.routes.js";
+import cookieParser from "cookie-parser";
+const app = express();
+
+//cors configure
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+//product route
+app.use("/api/admin/products", adminProductRouter);
+app.use("/api/admin/orders", adminOrderRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/address", addressRouter);
+app.use("/api/order", orderRouter);
+
+export default app;
