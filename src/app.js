@@ -9,20 +9,9 @@ import orderRouter from "./routes/shop/order.routes.js";
 import cookieParser from "cookie-parser";
 const app = express();
 
-//cors configure
-const allowedOrigins = [
-  process.env.FRONTEND_LOCAL_ORIGIN, // local development
-  process.env.FRONTEND_ORIGIN, // netlify frontend
-];
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: true,
     credentials: true,
   })
 );
