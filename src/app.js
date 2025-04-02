@@ -10,9 +10,19 @@ import cookieParser from "cookie-parser";
 const app = express();
 
 //cors configure
+const allowedOrigins = [
+  process.env.FRONTEND_LOCAL_ORIGIN, // local development
+  process.env.FRONTEND_ORIGIN, // netlify frontend
+];
 app.use(
   cors({
-    origin: process.env.FRONTEND_ORIGIN,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
