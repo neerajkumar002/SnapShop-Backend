@@ -7,8 +7,7 @@ const createProduct = async (req, res) => {
     //get all value
     const { title, description, price, category } = req.body;
     const productImageLocalPath = req.file?.path;
-     console.log(req.body)
-
+    console.log(req.body);
 
     if (!productImageLocalPath) {
       return res
