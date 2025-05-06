@@ -108,7 +108,6 @@ const logout = async (req, res) => {
 const checkAuth = async (req, res) => {
   try {
     const user = req.user;
-    console.log(req.user);
     return res
       .status(200)
       .json({ success: true, message: "Authorized user!", user });
