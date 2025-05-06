@@ -12,8 +12,6 @@ const getOrdersForAdmin = async (req, res) => {
         .json({ success: false, message: "No orders found" });
     }
 
-    console.log(ordersList);
-
     return res.status(200).json({ success: true, data: ordersList });
   } catch (error) {
     return res.status(500).json({ success: false, message: "error" });
@@ -32,7 +30,6 @@ const getOrderDetailsForAdmin = async (req, res) => {
     }
 
     const orderDetails = await Order.findById(id);
-    console.log("order details", orderDetails);
 
     return res.status(200).json({ success: true, data: orderDetails });
   } catch (error) {
@@ -42,13 +39,12 @@ const getOrderDetailsForAdmin = async (req, res) => {
 //update order status for admin
 const updateOrderStatus = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { orderId } = req.params;
     const { orderStatus } = req.body;
-    console.log(id, orderStatus);
-    if (!id) {
+    if (!orderId) {
       return res
         .status(400)
-        .json({ success: false, message: "Please provide a valid ID" });
+        .json({ success: false, message: "Please provide a valid  order ID" });
     }
     if (!orderStatus) {
       return res.status(400).json({
@@ -57,7 +53,7 @@ const updateOrderStatus = async (req, res) => {
       });
     }
 
-    const order = await Order.findById(id);
+    const order = await Order.findById(orderId);
 
     if (!order) {
       return res
@@ -65,7 +61,7 @@ const updateOrderStatus = async (req, res) => {
         .json({ success: false, message: "Order not found" });
     }
 
-    await Order.findByIdAndUpdate(id, { orderStatus });
+    await Order.findByIdAndUpdate(orderId, { orderStatus });
 
     return res
       .status(200)
