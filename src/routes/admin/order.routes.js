@@ -8,6 +8,6 @@ const route = express.Router();
 
 route.get("/list", getOrdersForAdmin);
 route.get("/details/:id", getOrderDetailsForAdmin);
-route.put("/update/:id", updateOrderStatus);
+route.patch("/update/:orderId", updateOrderStatus);
 
 export default route;
