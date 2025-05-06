@@ -67,7 +67,7 @@ const getCart = async (req, res) => {
     if (!cart) {
       return res
         .status(404)
-        .json({ success: false, message: "Cart not found" });
+        .json({ success: false, data: [], message: "Cart not found" });
     }
 
     const cartItems = cart.items.map((item) => ({
@@ -130,7 +130,7 @@ const updateCartItemQuantity = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      data: populateCartItems,
+      data: { ...cart._doc, items: populateCartItems },
     });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Error:" });
@@ -174,17 +174,15 @@ const removeCartItem = async (req, res) => {
       quantity: item.quantity,
     }));
 
-    console.log(cart);
+    return res.status(200).json({
+      success: true,
+      message: "Cart item successfully deleted",
 
-    // return res.status(200).json({
-    //   success: true,
-    //   message: "Cart item successfully deleted",
-
-    //   data: {
-    //     ...cart._doc,
-    //     items: populateCartItems,
-    //   },
-    // });
+      data: {
+        ...cart._doc,
+        items: populateCartItems,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Error:" });
   }
