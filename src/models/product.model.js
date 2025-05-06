@@ -22,7 +22,10 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
- 
+    averageReview: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
