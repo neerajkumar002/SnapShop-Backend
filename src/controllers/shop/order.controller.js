@@ -20,21 +20,6 @@ const createOrder = async (req, res) => {
       payerId,
     } = req.body;
 
-    console.log(
-      userId,
-      cartId,
-      cartItems,
-      addressInfo,
-      totalAmount,
-      orderStatus,
-      paymentStatus,
-      paymentMethod,
-      orderDate,
-      orderUpdateDate,
-      paymentId,
-      payerId
-    );
-
     const newOrder = new Order({
       userId,
       cartId,
@@ -86,7 +71,6 @@ const createOrder = async (req, res) => {
       .status(200)
       .json({ succcess: true, url: session.url, orderId: newOrder._id });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ success: false, message: "error" });
   }
 };
@@ -95,10 +79,10 @@ const createOrder = async (req, res) => {
 const capturePayment = async (req, res) => {
   try {
     const { session_id, orderId } = req.body;
-    console.log("oid", orderId);
+
     //find order
     let order = await Order.findById(orderId);
-    console.log(order);
+
     if (!order) {
       return res.status(404).json({
         success: "false",
@@ -109,10 +93,10 @@ const capturePayment = async (req, res) => {
     //retrieve the session details from stripe
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
-    order.paymentStatus = session.paymen_status;
+    order.paymentStatus = session.payment_status;
     order.orderStatus = "confirmed";
     order.paymentId = session.payment_intent;
-    order.paymentId = session.metadata["userId"];
+    order.payerId = session.metadata["userId"];
 
     //delete cart
     const getCartId = order.cartId;
@@ -120,13 +104,10 @@ const capturePayment = async (req, res) => {
 
     await order.save();
 
-    console.log(session);
-
     return res
       .status(200)
       .json({ success: true, message: "Order Confirmed", data: order });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ success: false, message: "Error" });
   }
 };
@@ -145,7 +126,6 @@ const fetehOrdersList = async (req, res) => {
     }
     return res.status(200).json({ succcess: true, data: orders });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ success: false, message: "error" });
   }
 };
@@ -170,10 +150,9 @@ const getOrderDetails = async (req, res) => {
       return res
         .status(404)
         .json({ succcess: false, message: "No order founds!" });
-    } 
+    }
     return res.status(200).json({ succcess: true, data: order });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ success: false, message: "error" });
   }
 };
