@@ -74,16 +74,22 @@ const login = async (req, res) => {
       }
     );
 
-    return res.cookie("token", token, { httpOnly: true, secure: true }).json({
-      success: true,
-      message: "Logged in successfully!",
-      user: {
-        id: checkUser._id,
-        fullName: checkUser.fullName,
-        email: checkUser.email,
-        role: checkUser.role,
-      },
-    });
+    return res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+      })
+      .json({
+        success: true,
+        message: "Logged in successfully!",
+        user: {
+          id: checkUser._id,
+          fullName: checkUser.fullName,
+          email: checkUser.email,
+          role: checkUser.role,
+        },
+      });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
