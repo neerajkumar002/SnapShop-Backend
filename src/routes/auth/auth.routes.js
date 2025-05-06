@@ -11,7 +11,7 @@ const route = express.Router();
 
 route.post("/register", register);
 route.post("/login", login);
-route.get("/logout", logout);
+route.post("/logout", logout);
 route.get("/checkAuth", authMiddleware, checkAuth);
 
 export default route;
