@@ -3,7 +3,7 @@ import {
   capturePayment,
   createOrder,
   fetehOrdersList,
-  getOrderDetails,
+  getOrderDetails, 
 } from "../../controllers/shop/order.controller.js";
 
 const route = express.Router();
