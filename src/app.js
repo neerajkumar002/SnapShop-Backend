@@ -6,6 +6,7 @@ import authRouter from "./routes/auth/auth.routes.js";
 import cartRouter from "./routes/shop/cart.routes.js";
 import addressRouter from "./routes/shop/address.routes.js";
 import orderRouter from "./routes/shop/order.routes.js";
+import productReviewRouter from "./routes/shop/review.routes.js";
 import cookieParser from "cookie-parser";
 const app = express();
 
@@ -26,5 +27,6 @@ app.use("/api/auth", authRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/reviews", productReviewRouter);
 
 export default app;
